@@ -1,68 +1,69 @@
-"use strict";
+'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+// class Walker  {
+//   constructor(time) {
+//     this.t = time+Math.random();
+//     this.r = noise(this.t);
+//   }
+//   step() {
+//     this.t+=0.03;
+//     this.r = noise(this.t)
+//   }
+// }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var walkers;
-var curves;
-var time = Math.random() * 100;
-p5.disableFriendlyErrors = true;
-
-var Walker = function () {
+var sketch = function sketch(p) {
+  //p.disableFriendlyErrors = true;
+  var walkers;
+  var curves;
+  var maxRadius;
+  var time = Math.random() * 100;
+  var w = p.windowWidth,
+      h = p.windowHeight;
   function Walker() {
-    _classCallCheck(this, Walker);
-
     this.t = time + Math.random();
-    this.r = noise(this.t);
+    this.r = p.noise(this.t);
   }
-
-  _createClass(Walker, [{
-    key: "step",
-    value: function step() {
-      this.t += 0.03;
-      this.r = noise(this.t);
+  Walker.prototype.step = function () {
+    this.t += 0.03;
+    this.r = p.noise(this.t);
+  };
+  p.setup = function () {
+    p.createCanvas(w, h);
+    p.frameRate(30);
+    p.noFill();
+    p.colorMode(p.HSB, 100);
+    maxRadius = Math.min(Math.min(w, h) * 0.4, 300);
+    walkers = new Array(12).fill().map(function (x) {
+      return new Walker();
+    });
+    curves = [];
+  };
+  p.draw = function () {
+    p.clear();
+    p.stroke(p.color(100, 0, 0));
+    p.fill(p.color(100, 0, 0));
+    p.ellipse(w / 2, h / 2, maxRadius * 2, maxRadius * 2);
+    p.noFill();
+    p.strokeWeight(1);
+    var newCurve = [];
+    for (var i = 0; i < walkers.length; i++) {
+      var angle = i / walkers.length * Math.PI * 2;
+      var radius = maxRadius * 0.1 + walkers[i].r * (maxRadius * 0.9);
+      var x = w / 2 + Math.cos(angle) * radius;
+      var y = h / 2 + Math.sin(angle) * radius;
+      newCurve.push(p.createVector(x, y));
+      walkers[i].step();
     }
-  }]);
-
-  return Walker;
-}();
-
-var setup = function setup() {
-  createCanvas(800, 540);
-  frameRate(30);
-  noFill();
-  colorMode(HSB, 100);
-  walkers = new Array(12).fill().map(function (x) {
-    return new Walker();
-  });
-  curves = [];
+    curves.push(newCurve);
+    curves = curves.slice(-25);
+    for (var i = 0; i < curves.length; i++) {
+      var currentCurve = curves[i];
+      p.stroke(p.color(100 / curves.length * i, 100, 100, 100 - 100 / curves.length * i));
+      for (var j = 0; j < currentCurve.length; j++) {
+        p.curve(currentCurve[j].x, currentCurve[j].y, currentCurve[(j + 1) % currentCurve.length].x, currentCurve[(j + 1) % currentCurve.length].y, currentCurve[(j + 2) % currentCurve.length].x, currentCurve[(j + 2) % currentCurve.length].y, currentCurve[(j + 3) % currentCurve.length].x, currentCurve[(j + 3) % currentCurve.length].y);
+      }
+    }
+  };
 };
 
-var draw = function draw() {
-  clear();
-  strokeWeight(0.5);
-  stroke(color(100, 0, 0));
-  fill(100, 0, 0);
-  ellipse(width / 2, height / 2, 540, 540);
-  noFill();
-  strokeWeight(1.5);
-  var newCurve = [];
-  for (var i = 0; i < walkers.length; i++) {
-    var angle = i / walkers.length * Math.PI * 2;
-    var radius = 30 + walkers[i].r * 255;
-    var x = width / 2 + Math.cos(angle) * radius;
-    var y = height / 2 + Math.sin(angle) * radius;
-    newCurve.push(createVector(x, y));
-    walkers[i].step();
-  }
-  curves.push(newCurve);
-  curves = curves.slice(-25);
-  for (var i = 0; i < curves.length; i++) {
-    var currentCurve = curves[i];
-    stroke(color(100 / curves.length * i, 100, 100, 100 - 100 / curves.length * i));
-    for (var j = 0; j < currentCurve.length; j++) {
-      curve(currentCurve[j].x, currentCurve[j].y, currentCurve[(j + 1) % currentCurve.length].x, currentCurve[(j + 1) % currentCurve.length].y, currentCurve[(j + 2) % currentCurve.length].x, currentCurve[(j + 2) % currentCurve.length].y, currentCurve[(j + 3) % currentCurve.length].x, currentCurve[(j + 3) % currentCurve.length].y);
-    }
-  }
-};
+var myp5 = new p5(sketch, 'cell');
