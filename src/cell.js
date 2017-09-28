@@ -1,32 +1,39 @@
 'use strict';
 
-// class Walker  {
-//   constructor(time) {
-//     this.t = time+Math.random();
-//     this.r = noise(this.t);
-//   }
-//   step() {
-//     this.t+=0.03;
-//     this.r = noise(this.t)
-//   }
-// }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var sketch = function sketch(p) {
-  //p.disableFriendlyErrors = true;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+p5.disableFriendlyErrors = true;
+
+var Walker = function () {
+  function Walker(p, t) {
+    _classCallCheck(this, Walker);
+
+    this.p = p;
+    this.t = t + Math.random();
+    this.r = p.noise(this.t);
+  }
+
+  _createClass(Walker, [{
+    key: 'step',
+    value: function step() {
+      this.t += 0.03;
+      this.r = this.p.noise(this.t);
+    }
+  }]);
+
+  return Walker;
+}();
+
+var cell = function cell(p) {
+  p.disableFriendlyErrors = true;
   var walkers;
   var curves;
   var maxRadius;
   var time = Math.random() * 100;
   var w = p.windowWidth,
       h = p.windowHeight;
-  function Walker() {
-    this.t = time + Math.random();
-    this.r = p.noise(this.t);
-  }
-  Walker.prototype.step = function () {
-    this.t += 0.03;
-    this.r = p.noise(this.t);
-  };
   p.setup = function () {
     p.createCanvas(w, h);
     p.frameRate(30);
@@ -34,7 +41,7 @@ var sketch = function sketch(p) {
     p.colorMode(p.HSB, 100);
     maxRadius = Math.min(Math.min(w, h) * 0.4, 300);
     walkers = new Array(12).fill().map(function (x) {
-      return new Walker();
+      return new Walker(p, time);
     });
     curves = [];
   };
@@ -66,4 +73,4 @@ var sketch = function sketch(p) {
   };
 };
 
-var myp5 = new p5(sketch, 'cell');
+var cell_sketch = new p5(cell, 'cell');

@@ -1,37 +1,32 @@
-// class Walker  {
-//   constructor(time) {
-//     this.t = time+Math.random();
-//     this.r = noise(this.t);
-//   }
-//   step() {
-//     this.t+=0.03;
-//     this.r = noise(this.t)
-//   }
-// }
+p5.disableFriendlyErrors = true;
 
-const sketch = (p) => {
-  //p.disableFriendlyErrors = true;
+class Walker {
+  constructor(p,t) {
+    this.p = p
+    this.t = t+Math.random();
+    this.r = p.noise(this.t);
+  }
+  step() {
+    this.t+=0.03;
+    this.r = this.p.noise(this.t)
+  }
+}
+
+const cell = p => {
+  p.disableFriendlyErrors = true;
   var walkers;
   var curves;
   var maxRadius;
   var time = Math.random()*100;
   const w = p.windowWidth,
         h = p.windowHeight;
-  function Walker() {
-    this.t = time+Math.random();
-    this.r = p.noise(this.t);
-  }
-  Walker.prototype.step = function() {
-    this.t+=0.03;
-    this.r = p.noise(this.t)
-  };
   p.setup = () => {
     p.createCanvas(w,h);
     p.frameRate(30);
     p.noFill();
     p.colorMode(p.HSB,100);
     maxRadius = Math.min(Math.min(w,h)*0.4,300)
-    walkers = new Array(12).fill().map(x => new Walker());
+    walkers = new Array(12).fill().map(x => new Walker(p,time));
     curves = [];
   }
   p.draw = () => {
@@ -65,4 +60,4 @@ const sketch = (p) => {
   }
 }
 
-var myp5 = new p5(sketch, 'cell');
+var cell_sketch = new p5(cell, 'cell');
