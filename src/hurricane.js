@@ -28,49 +28,49 @@ var ParticleSystem = function () {
     this.getMouseVectors = [function (x, y) {
       return p.createVector(0, 0);
     }, function (x, y) {
-      var polar = _this.cartesianToPolar(x - _mouseX, y - _mouseY);
+      var polar = _this.cartesianToPolar(x - _this.mouseX, y - _this.mouseY);
       var a = polar.a;
       var r = polar.r * polar.r / _this.outerRadius;
       var a_offset = Math.max((r - _this.innerRadius) / (_this.outerRadius - _this.innerRadius), 0) * Math.PI / 3 + Math.PI / 18;
       var vector_a = a + Math.PI / 2 + a_offset;
-      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * speed / 1.5;
+      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * _this.speed / 1.5;
       var cartVector = _this.polarToCartesian(vector_a, vector_r);
       return p.createVector(cartVector.x, cartVector.y);
     }, function (x, y) {
-      var polar = cartesianToPolar(x - _mouseX, y - _mouseY);
+      var polar = _this.cartesianToPolar(x - _this.mouseX, y - _this.mouseY);
       var a = -polar.a;
       var r = polar.r * polar.r / _this.outerRadius;
       var a_offset = Math.max((r - _this.innerRadius) / (_this.outerRadius - _this.innerRadius), 0) * Math.PI / 3 + Math.PI / 18;
       var vector_a = a + Math.PI / 2 + a_offset;
-      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * speed / 1.5;
-      var cartVector = polarToCartesian(vector_a, vector_r);
+      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * _this.speed / 1.5;
+      var cartVector = _this.polarToCartesian(vector_a, vector_r);
       return p.createVector(cartVector.x, cartVector.y);
     }, function (x, y) {
-      var polar = cartesianToPolar(x - _mouseX, y - _mouseY);
+      var polar = _this.cartesianToPolar(x - _this.mouseX, y - _this.mouseY);
       var a = polar.a;
       var r = polar.r * polar.r;
       var a_offset = Math.max((r - _this.innerRadius) / (_this.outerRadius - _this.innerRadius), 0) * Math.PI / 3 + Math.PI / 18;
       var vector_a = a + Math.PI / 2 + a_offset;
-      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * speed / 50;
-      var cartVector = polarToCartesian(vector_a, vector_r);
+      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * _this.speed / 50;
+      var cartVector = _this.polarToCartesian(vector_a, vector_r);
       return p.createVector(cartVector.x, cartVector.y);
     }, function (x, y) {
-      var polar = cartesianToPolar(x - _mouseX, y - _mouseY);
+      var polar = _this.cartesianToPolar(x - _this.mouseX, y - _this.mouseY);
       var a = polar.a;
       var r = polar.r * polar.r;
       var a_offset = Math.max((r - _this.innerRadius) / (_this.outerRadius - _this.innerRadius), 0) * Math.PI / 3 + Math.PI / 18;
       var vector_a = a + Math.PI / 2 + a_offset;
-      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * speed / 200;
-      var cartVector = polarToCartesian(vector_a, vector_r);
+      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * _this.speed / 200;
+      var cartVector = _this.polarToCartesian(vector_a, vector_r);
       return p.createVector(cartVector.x, cartVector.y);
     }, function (x, y) {
-      var polar = cartesianToPolar(x - _mouseX, y - _mouseY);
+      var polar = _this.cartesianToPolar(x - _this.mouseX, y - _this.mouseY);
       var a = polar.a;
       var r = Math.sqrt(polar.r) * _this.outerRadius * 0.6;
       var a_offset = Math.max((r - _this.innerRadius) / (_this.outerRadius - _this.innerRadius), 0) * Math.PI / 3 + Math.PI / 18;
       var vector_a = a + Math.PI / 2 + a_offset;
-      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * speed / 2;
-      var cartVector = polarToCartesian(vector_a, vector_r);
+      var vector_r = (0.25 + (_this.outerRadius - r) / (_this.outerRadius - _this.innerRadius) * .75) * _this.speed / 2;
+      var cartVector = _this.polarToCartesian(vector_a, vector_r);
       return p.createVector(cartVector.x, cartVector.y);
     }];
     this.getMouseVector = this.getMouseVectors[0];
@@ -218,7 +218,7 @@ var hurricane = function hurricane(p) {
   };
   p.keyPressed = function () {
     console.log(p.keyCode);
-    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(mouseVectors.length - 1, ps.mode + 1));else if (p.keyCode == p.LEFT_ARROW) ps.setMode(Math.max(0, mode - 1));else if (p.keyCode == p.UP_ARROW) ps.multiplier = Math.min(3, ps.multiplier + 0.1);else if (p.keyCode == p.DOWN_ARROW) ps.multiplier = Math.max(0.3, ps.multiplier - 0.1);
+    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(ps.getMouseVectors.length - 1, ps.mode + 1));else if (p.keyCode == p.LEFT_ARROW) ps.setMode(Math.max(0, mode - 1));else if (p.keyCode == p.UP_ARROW) ps.multiplier = Math.min(3, ps.multiplier + 0.1);else if (p.keyCode == p.DOWN_ARROW) ps.multiplier = Math.max(0.3, ps.multiplier - 0.1);
     return false;
   };
 

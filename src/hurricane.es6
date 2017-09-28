@@ -19,53 +19,53 @@ class ParticleSystem {
         return p.createVector(0,0);
       },
       (x,y) => {
-        var polar = this.cartesianToPolar(x-_mouseX,y-_mouseY);
+        var polar = this.cartesianToPolar(x-this.mouseX,y-this.mouseY);
         var a = polar.a
         var r = polar.r*polar.r/this.outerRadius
         var a_offset = Math.max((r-this.innerRadius)/(this.outerRadius-this.innerRadius),0)*Math.PI/3+Math.PI/18;
         var vector_a = a+Math.PI/2+a_offset
-        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*speed/1.5;
+        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*this.speed/1.5;
         var cartVector = this.polarToCartesian(vector_a,vector_r)
         return p.createVector(cartVector.x,cartVector.y)
       },
       (x,y) => {
-        var polar = cartesianToPolar(x-_mouseX,y-_mouseY);
+        var polar = this.cartesianToPolar(x-this.mouseX,y-this.mouseY);
         var a = -polar.a
         var r = polar.r*polar.r/this.outerRadius
         var a_offset = Math.max((r-this.innerRadius)/(this.outerRadius-this.innerRadius),0)*Math.PI/3+Math.PI/18;
         var vector_a = a+Math.PI/2+a_offset
-        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*speed/1.5;
-        var cartVector = polarToCartesian(vector_a,vector_r)
+        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*this.speed/1.5;
+        var cartVector = this.polarToCartesian(vector_a,vector_r)
         return p.createVector(cartVector.x,cartVector.y)
       },
       (x,y) => {
-        var polar = cartesianToPolar(x-_mouseX,y-_mouseY);
+        var polar = this.cartesianToPolar(x-this.mouseX,y-this.mouseY);
         var a = polar.a
         var r = polar.r*polar.r
         var a_offset = Math.max((r-this.innerRadius)/(this.outerRadius-this.innerRadius),0)*Math.PI/3+Math.PI/18;
         var vector_a = a+Math.PI/2+a_offset
-        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*speed/50;
-        var cartVector = polarToCartesian(vector_a,vector_r)
+        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*this.speed/50;
+        var cartVector = this.polarToCartesian(vector_a,vector_r)
         return p.createVector(cartVector.x,cartVector.y)
       },
       (x,y) => {
-        var polar = cartesianToPolar(x-_mouseX,y-_mouseY);
+        var polar = this.cartesianToPolar(x-this.mouseX,y-this.mouseY);
         var a = polar.a
         var r = polar.r*polar.r
         var a_offset = Math.max((r-this.innerRadius)/(this.outerRadius-this.innerRadius),0)*Math.PI/3+Math.PI/18;
         var vector_a = a+Math.PI/2+a_offset
-        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*speed/200;
-        var cartVector = polarToCartesian(vector_a,vector_r)
+        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*this.speed/200;
+        var cartVector = this.polarToCartesian(vector_a,vector_r)
         return p.createVector(cartVector.x,cartVector.y)
       },
       (x,y) => {
-        var polar = cartesianToPolar(x-_mouseX,y-_mouseY);
+        var polar = this.cartesianToPolar(x-this.mouseX,y-this.mouseY);
         var a = polar.a
         var r = Math.sqrt(polar.r)*this.outerRadius*0.6
         var a_offset = Math.max((r-this.innerRadius)/(this.outerRadius-this.innerRadius),0)*Math.PI/3+Math.PI/18;
         var vector_a = a+Math.PI/2+a_offset
-        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*speed/2;
-        var cartVector = polarToCartesian(vector_a,vector_r)
+        var vector_r = (0.25+(this.outerRadius-r)/(this.outerRadius-this.innerRadius)*.75)*this.speed/2;
+        var cartVector = this.polarToCartesian(vector_a,vector_r)
         return p.createVector(cartVector.x,cartVector.y)
       }
     ]
@@ -179,7 +179,7 @@ const hurricane = p => {
   }
   p.keyPressed = () => {
     console.log(p.keyCode);
-    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(mouseVectors.length-1,ps.mode+1));
+    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(ps.getMouseVectors.length-1,ps.mode+1));
     else if (p.keyCode == p.LEFT_ARROW) ps.setMode(Math.max(0,mode-1));
     else if (p.keyCode == p.UP_ARROW) ps.multiplier = Math.min(3,ps.multiplier+0.1);
     else if (p.keyCode == p.DOWN_ARROW) ps.multiplier = Math.max(0.3,ps.multiplier-0.1);
