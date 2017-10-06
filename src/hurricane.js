@@ -218,7 +218,7 @@ var hurricane = function hurricane(p) {
   };
   p.keyPressed = function () {
     console.log(p.keyCode);
-    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(ps.getMouseVectors.length - 1, ps.mode + 1));else if (p.keyCode == p.LEFT_ARROW) ps.setMode(Math.max(0, mode - 1));else if (p.keyCode == p.UP_ARROW) ps.multiplier = Math.min(3, ps.multiplier + 0.1);else if (p.keyCode == p.DOWN_ARROW) ps.multiplier = Math.max(0.3, ps.multiplier - 0.1);
+    if (p.keyCode == p.RIGHT_ARROW) ps.setMode(Math.min(ps.getMouseVectors.length - 1, ps.mode + 1));else if (p.keyCode == p.LEFT_ARROW) ps.setMode(Math.max(0, ps.mode - 1));else if (p.keyCode == p.UP_ARROW) ps.multiplier = Math.min(3, ps.multiplier + 0.1);else if (p.keyCode == p.DOWN_ARROW) ps.multiplier = Math.max(0.3, ps.multiplier - 0.1);
     return false;
   };
 
